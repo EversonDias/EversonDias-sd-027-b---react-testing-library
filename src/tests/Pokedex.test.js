@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../renderWithRouter';
 import Pokedex from '../pages/Pokedex';
@@ -8,6 +8,8 @@ import pokemonList from '../data';
 const isFavorite = {};
 
 describe('testes do componente pokedex', () => {
+  const nextPokemon = 'next-pokemon';
+  const pokemonName = 'pokemon-name';
   it('A pagina deve conter um H2 com texto Encountered Pokémon', () => {
     renderWithRouter(
       <Pokedex
@@ -26,7 +28,7 @@ describe('testes do componente pokedex', () => {
         isPokemonFavoriteById={ isFavorite }
       />,
     );
-    const getButtonText = screen.getByTestId('next-pokemon');
+    const getButtonText = screen.getByTestId(nextPokemon);
     expect(getButtonText).toHaveTextContent('Próximo Pokémon');
   });
 
@@ -38,9 +40,9 @@ describe('testes do componente pokedex', () => {
       />,
     );
     const { name } = pokemonList[1];
-    const getButtonText = screen.getByTestId('next-pokemon');
+    const getButtonText = screen.getByTestId(nextPokemon);
     userEvent.click(getButtonText);
-    const pokemon = screen.getByTestId('pokemon-name');
+    const pokemon = screen.getByTestId(pokemonName);
     expect(pokemon).toHaveTextContent(name);
   });
 
@@ -54,15 +56,15 @@ describe('testes do componente pokedex', () => {
     const length = 9;
     for (let index = 0; index < length; index += 1) {
       if (index === 8) {
-        const getButtonText = screen.getByTestId('next-pokemon');
+        const getButtonText = screen.getByTestId(nextPokemon);
         userEvent.click(getButtonText);
-        const pokemon = screen.getByTestId('pokemon-name');
+        const pokemon = screen.getByTestId(pokemonName);
         expect(pokemon).toHaveTextContent('Pikachu');
       } else {
         const { name } = pokemonList[index + 1];
-        const getButtonText = screen.getByTestId('next-pokemon');
+        const getButtonText = screen.getByTestId(nextPokemon);
         userEvent.click(getButtonText);
-        const pokemon = screen.getByTestId('pokemon-name');
+        const pokemon = screen.getByTestId(pokemonName);
         expect(pokemon).toHaveTextContent(name);
       }
     }
@@ -75,7 +77,7 @@ describe('testes do componente pokedex', () => {
         isPokemonFavoriteById={ isFavorite }
       />,
     );
-    const pokemon = screen.getByTestId('pokemon-name');
+    const pokemon = screen.getByTestId(pokemonName);
     expect(pokemon).toBeInTheDocument();
   });
 
@@ -101,7 +103,7 @@ describe('testes do componente pokedex', () => {
     userEvent.click(selectType);
     const pokemon = screen.getByTestId('pokemon-type');
     expect(pokemon).toHaveTextContent('Fire');
-    const getButtonText = screen.getByTestId('next-pokemon');
+    const getButtonText = screen.getByTestId(nextPokemon);
     userEvent.click(getButtonText);
     const pokemonNext = screen.getByTestId('pokemon-type');
     expect(pokemonNext).toHaveTextContent('Fire');
@@ -131,9 +133,9 @@ describe('testes do componente pokedex', () => {
     userEvent.click(selectType);
     const selectAll = screen.getByRole('button', { name: 'All' });
     userEvent.click(selectAll);
-    const pokemon = screen.getByTestId('pokemon-name');
+    const pokemon = screen.getByTestId(pokemonName);
     expect(pokemon).toHaveTextContent('Pikachu');
-    const getButtonText = screen.getByTestId('next-pokemon');
+    const getButtonText = screen.getByTestId(nextPokemon);
     userEvent.click(getButtonText);
     expect(pokemon).toHaveTextContent('Charmander');
   });
