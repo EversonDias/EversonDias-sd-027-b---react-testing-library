@@ -36,7 +36,7 @@ class Pokemon extends React.Component {
 }
 
 Pokemon.propTypes = {
-  isFavorite: PropTypes.bool.isRequired,
+  isFavorite: PropTypes.bool,
   pokemon: pokemonType.isRequired,
   showDetailsLink: PropTypes.bool,
 };
